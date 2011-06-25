@@ -65,12 +65,12 @@ public class LoceratureStageOneJob extends Configured implements Tool {
 		FileInputFormat.addInputPath(job, new Path(args[0]));        // Hardcoding sucks if someone is trying to test
 
 		// Preparing the output folder by first deleting it if it exists
-        Path output = new Path("/tmp/locerature_stage1");
+        Path output = new Path(args[1]);
         FileSystem.get(conf).delete(output, true);
 	    FileOutputFormat.setOutputPath(job, output);
 
 	    // Mappers will need city names for lookup
-	    DistributedCache.addCacheFile(new URI("hdfs:/datasets/geonames/cities15000/cities15000.txt"), conf);
+	    DistributedCache.addCacheFile(new URI("hdfs:/datasets/geonames/cities15000.txt"), conf);
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
 }
