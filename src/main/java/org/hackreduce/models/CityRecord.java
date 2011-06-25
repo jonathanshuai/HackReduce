@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.lang.Integer;
+import java.io.IOException;
 
 
 /**
@@ -92,30 +93,70 @@ public class CityRecord  implements Writable {
 	   return new Integer(this.population);
    }
 
+   public CityRecord(DataInput dataInput) throws IOException{
+	   geonameid = dataInput.readUTF();
+       name = dataInput.readUTF();
+       asciiname = dataInput.readUTF();
+       alternatenames = dataInput.readUTF();
+       latitude = dataInput.readUTF();
+       longitude = dataInput.readUTF();
+       feature_class = dataInput.readUTF();
+       feature_code = dataInput.readUTF();
+       country_code = dataInput.readUTF();
+       cc2 = dataInput.readUTF();
+       admin1_code = dataInput.readUTF();
+       admin2_code = dataInput.readUTF();
+       admin3_code = dataInput.readUTF();
+       admin4_code = dataInput.readUTF();
+       population = dataInput.readUTF();
+       elevation = dataInput.readUTF();
+       gtopo30 = dataInput.readUTF();
+       timezone = dataInput.readUTF();
+       modification_date = dataInput.readUTF();
+   }
 
     public void write(DataOutput dataOutput) throws IOException {
-            dataOutput.writeChars(geonameid);
-            dataOutput.writeChars(name);
-            dataOutput.writeChars(asciiname);
-            dataOutput.writeChars(alternatenames);
-            dataOutput.writeChars(latitude);
-            dataOutput.writeChars(longitude);
-            dataOutput.writeChars(feature_class);
-            dataOutput.writeChars(feature_code);
-            dataOutput.writeChars(country_code);
-            dataOutput.writeChars(cc2);
-            dataOutput.writeChars(admin1_code);
-            dataOutput.writeChars(admin2_code);
-            dataOutput.writeChars(admin3_code);
-            dataOutput.writeChars(admin4_code);
-            dataOutput.writeChars(population);
-            dataOutput.writeChars(elevation);
-            dataOutput.writeChars(gtopo30);
-            dataOutput.writeChars(timezone);
-            dataOutput.writeChars(modification_date);
+            dataOutput.writeUTF(geonameid);
+            dataOutput.writeUTF(name);
+            dataOutput.writeUTF(asciiname);
+            dataOutput.writeUTF(alternatenames);
+            dataOutput.writeUTF(latitude);
+            dataOutput.writeUTF(longitude);
+            dataOutput.writeUTF(feature_class);
+            dataOutput.writeUTF(feature_code);
+            dataOutput.writeUTF(country_code);
+            dataOutput.writeUTF(cc2);
+            dataOutput.writeUTF(admin1_code);
+            dataOutput.writeUTF(admin2_code);
+            dataOutput.writeUTF(admin3_code);
+            dataOutput.writeUTF(admin4_code);
+            dataOutput.writeUTF(population);
+            dataOutput.writeUTF(elevation);
+            dataOutput.writeUTF(gtopo30);
+            dataOutput.writeUTF(timezone);
+            dataOutput.writeUTF(modification_date);
     }
 
     public void readFields(DataInput dataInput) throws IOException {
-
+    	  geonameid = dataInput.readUTF();
+          name = dataInput.readUTF();
+          asciiname = dataInput.readUTF();
+          alternatenames = dataInput.readUTF();
+          latitude = dataInput.readUTF();
+          longitude = dataInput.readUTF();
+          feature_class = dataInput.readUTF();
+          feature_code = dataInput.readUTF();
+          country_code = dataInput.readUTF();
+          cc2 = dataInput.readUTF();
+          admin1_code = dataInput.readUTF();
+          admin2_code = dataInput.readUTF();
+          admin3_code = dataInput.readUTF();
+          admin4_code = dataInput.readUTF();
+          population = dataInput.readUTF();
+          elevation = dataInput.readUTF();
+          gtopo30 = dataInput.readUTF();
+          timezone = dataInput.readUTF();
+          modification_date = dataInput.readUTF();
     }
+    
 }
