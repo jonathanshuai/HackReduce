@@ -64,7 +64,7 @@ public class CityYearRecord implements Writable {
       public String toString(){
       	String result = "{" ; 
       	result += "count:" +  this.count + ",";
-      	result += "city:"  + this.cr.asciiname + ",";
+      	result += "city:\""  + this.cr.asciiname + "\",";
       	result += "long:" + this.cr.longitude + ",";
       	result += "lat:" + this.cr.latitude + ",";
       	result += "year:" + this.year + ",";

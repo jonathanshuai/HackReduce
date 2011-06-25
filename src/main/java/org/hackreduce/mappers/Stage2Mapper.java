@@ -1,5 +1,6 @@
 package org.hackreduce.mappers;
 
+import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.record.Record;
 import org.hackreduce.mappers.ngram.OneGramMapper;
@@ -22,9 +23,7 @@ import org.apache.hadoop.util.ToolRunner;
 import org.hackreduce.mappers.ModelMapper;
 import org.hackreduce.models.ngram.OneGram;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -40,17 +39,19 @@ public class Stage2Mapper extends Mapper<LongWritable, Text, Text, CityYearRecor
     @Override
     public void setup(Context context) {
         try {
-            URI citiesURI = new URI("hdfs://datasets/geonames/cities15000.txt");
-            Path[] cacheFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());
-            String path;
-            if( cacheFiles != null) {
-                Path cacheFile = cacheFiles[0];
-                path = cacheFile.toString();
+            URI citiesURI = new URI("/datasets/geonames/");
+            FileSystem fileSystem= FileSystem.get(citiesURI, context.getConfiguration());
+
+            Reader reader;
+            Path citiesPath = new Path("cities15000.txt");
+            if( fileSystem.exists(citiesPath) ) {
+                FSDataInputStream in = fileSystem.open(citiesPath);
+                reader = new InputStreamReader(in);
             } else {
-                path = "datasets/geonames/cities15000/cities15000.txt";
+                reader = new FileReader("datasets/geonames/cities15000/cities15000.txt");
             }
             String line; String[] tokens;
-            BufferedReader joinReader = new BufferedReader( new FileReader(path));
+            BufferedReader joinReader = new BufferedReader( reader);
             try {
                  while ((line = joinReader.readLine()) != null) {
                      CityRecord record = new CityRecord(line);

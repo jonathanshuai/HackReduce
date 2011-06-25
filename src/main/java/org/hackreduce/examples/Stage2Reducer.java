@@ -18,6 +18,8 @@ import org.hackreduce.models.CityYearRecord;
 import org.hackreduce.models.CityRecord;
 import java.io.IOException;
 import java.math.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -33,23 +35,19 @@ public class Stage2Reducer extends Reducer<Text, CityYearRecord, Text,CityYearRe
 	     Integer currentPop;
 	     CityRecord maxCity = null;
 	     CityRecord currentCity = null;
+           Map<String, CityYearRecord> records = new HashMap<String, CityYearRecord>();
+
 	     for (CityYearRecord val : values) {
-	    	 currentCity = val.getCityRecord();
-	    	 currentPop = currentCity.getPopulation();
-	    	 if (currentPop > maxPop){
-	    		 maxPop = currentPop;
-	    		 maxCity = currentCity;
-	    		 sum = val.getCount();
-	    	 }
-	    	 else if (currentCity.equals(maxCity)){
-	    		 sum += val.getCount();
-	    	 }
+             String cityName = val.getCityRecord().name;
+             CityYearRecord previous = records.get(cityName);
+             if( previous == null || previous.getCityRecord().getPopulation() < val.getCityRecord().getPopulation()) {
+                 records.put(cityName,  val);
+             }
 	     }
 
-	     CityYearRecord result = new CityYearRecord(maxCity,key.toString(),sum) ;
-	     
-	     context.write(key, result);
-	     
+         for(CityYearRecord record: records.values()) {
+             context.write(key, record);
+         }
 	     
 	   }
 
