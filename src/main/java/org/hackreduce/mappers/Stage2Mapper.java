@@ -1,6 +1,7 @@
 package org.hackreduce.mappers;
 
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.record.Record;
 import org.hackreduce.mappers.ngram.OneGramMapper;
 import org.hackreduce.models.CityRecord;
 import org.apache.hadoop.filecache.DistributedCache;
@@ -50,16 +51,18 @@ public class Stage2Mapper extends Mapper<LongWritable, Text, Text, CityYearRecor
             }
             String line; String[] tokens;
             BufferedReader joinReader = new BufferedReader( new FileReader(path));
-             try {
+            try {
                  while ((line = joinReader.readLine()) != null) {
                      CityRecord record = new CityRecord(line);
+                     System.out.println("********** Reading in city " + record.name);
                      joinData.put( record.name, record);
                  }
-             } catch(IOException e) {
+            } catch(IOException e) {
                  System.err.println("Exception reading DistributedCache: " + e);
-             } finally {
+                throw new RuntimeException(e);
+            } finally {
                  joinReader.close();
-             }
+            }
          } catch(Exception e) {
              System.err.println("Distribute cache issue");
             throw new RuntimeException(e);
@@ -70,6 +73,8 @@ public class Stage2Mapper extends Mapper<LongWritable, Text, Text, CityYearRecor
 	protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
         try {
+            System.out.println("********** mapping ngram" + value.toString());
+
             OneGram gram = new OneGram(value);
 
             CityRecord cityRecord = joinData.get(gram.getGram1());
