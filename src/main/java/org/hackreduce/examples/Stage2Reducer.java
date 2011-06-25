@@ -30,23 +30,24 @@ public class Stage2Reducer extends Reducer<Text, CityYearRecord, Text,CityYearRe
 	 
 	   public void reduce(Text key, Iterable<CityYearRecord> values, 
 	                      Context context) throws IOException,InterruptedException {
-	     int sum = 0;
-	     Integer maxPop = 0;
-	     Integer currentPop;
-	     CityRecord maxCity = null;
-	     CityRecord currentCity = null;
+
            Map<String, CityYearRecord> records = new HashMap<String, CityYearRecord>();
 
 	     for (CityYearRecord val : values) {
              String cityName = val.getCityRecord().name;
              CityYearRecord previous = records.get(cityName);
              if( previous == null || previous.getCityRecord().getPopulation() < val.getCityRecord().getPopulation()) {
+                 System.out.println("*************** Adding " + cityName + " for " + key);
                  records.put(cityName,  val);
              }
 	     }
 
-         for(CityYearRecord record: records.values()) {
-             context.write(key, record);
+           System.out.println(" key size" + records.keySet().size());
+
+         for(String cityName: records.keySet()) {
+             CityYearRecord someCity = records.get(cityName);
+             System.out.println("*************** Writing " + someCity.getCityRecord().name + " for " + key);
+             context.write(key, someCity);
          }
 	     
 	   }
