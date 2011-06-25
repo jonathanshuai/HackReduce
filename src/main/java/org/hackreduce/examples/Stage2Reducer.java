@@ -18,7 +18,19 @@ import org.hackreduce.models.BixiRecord;
 /**
  *
  */
-public class LargestPopulationReduce extends Reducer<Text, Text, Text, NullWritable> {
-
-
+public class Stage2Reducer extends Reducer<Text, CityYearRecord, Text,CityYearRecord> {
+ationReduce
+	 
+	 
+	   public void reduce(Key key, Iterable<CityYearRecord> values, 
+	                      Context context) throws IOException {
+	     int sum = 0;
+	     for (CityYearRecord val : values) {
+	       sum += val.getCount();
+	     }
+	     String year = key.
+	     CityYearRecord result = new CityYearRecord(,,sum) ;
+	     context.collect(year, result);
+	   }
+	 }
 }
