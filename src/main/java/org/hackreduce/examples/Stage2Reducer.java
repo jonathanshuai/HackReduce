@@ -14,23 +14,44 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.hackreduce.mappers.BixiMapper;
 import org.hackreduce.models.BixiRecord;
+import org.hackreduce.models.CityYearRecord;
+import org.hackreduce.models.CityRecord;
+import java.io.IOException;
+import java.math.*;
 
 /**
  *
  */
 public class Stage2Reducer extends Reducer<Text, CityYearRecord, Text,CityYearRecord> {
-ationReduce
+
 	 
 	 
-	   public void reduce(Key key, Iterable<CityYearRecord> values, 
-	                      Context context) throws IOException {
+	   public void reduce(Text key, Iterable<CityYearRecord> values, 
+	                      Context context) throws IOException,InterruptedException {
 	     int sum = 0;
+	     Integer maxPop = 0;
+	     Integer currentPop;
+	     CityRecord maxCity = null;
+	     CityRecord currentCity = null;
 	     for (CityYearRecord val : values) {
-	       sum += val.getCount();
+	    	 currentCity = val.getCityRecord();
+	    	 currentPop = currentCity.getPopulation();
+	    	 if (currentPop > maxPop){
+	    		 maxPop = currentPop;
+	    		 maxCity = currentCity;
+	    		 sum = val.getCount();
+	    	 }
+	    	 else if (currentCity.equals(maxCity)){
+	    		 sum += val.getCount();
+	    	 }
 	     }
-	     String year = key.
-	     CityYearRecord result = new CityYearRecord(,,sum) ;
-	     context.collect(year, result);
+	     String[] entries = key.toString().split(";");
+	     Text year = new Text(entries[1]);
+	     CityYearRecord result = new CityYearRecord(maxCity,year.toString(),sum) ;
+	     
+	     context.write(year, result);
+	     
+	     
 	   }
-	 }
+
 }
