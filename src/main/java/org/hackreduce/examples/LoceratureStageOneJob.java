@@ -70,7 +70,7 @@ public class LoceratureStageOneJob extends Configured implements Tool {
 	    FileOutputFormat.setOutputPath(job, output);
 
 	    // Mappers will need city names for lookup
-	    DistributedCache.addCacheFile(new URI("/datasets/geonames/cities15000/cities15000.txt"), conf);
+	    DistributedCache.addCacheFile(new URI("hdfs:/datasets/geonames/cities15000/cities15000.txt"), conf);
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
 }
