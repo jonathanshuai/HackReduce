@@ -18,7 +18,9 @@ import org.hackreduce.models.CityYearRecord;
 import org.hackreduce.models.CityRecord;
 import java.io.IOException;
 import java.math.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,24 +33,30 @@ public class Stage2Reducer extends Reducer<Text, CityYearRecord, Text,CityYearRe
 	   public void reduce(Text key, Iterable<CityYearRecord> values, 
 	                      Context context) throws IOException,InterruptedException {
 
-           Map<String, CityYearRecord> records = new HashMap<String, CityYearRecord>();
+                      Map<String, CityYearRecord> records = new HashMap<String, CityYearRecord>();
 
 	     for (CityYearRecord val : values) {
-             String cityName = val.getCityRecord().name;
-             CityYearRecord previous = records.get(cityName);
-             if( previous == null || previous.getCityRecord().getPopulation() < val.getCityRecord().getPopulation()) {
-                 System.out.println("*************** Adding " + cityName + " for " + key);
-                 records.put(cityName,  val);
-             }
-	     }
-
-           System.out.println(" key size" + records.keySet().size());
-
-         for(String cityName: records.keySet()) {
-             CityYearRecord someCity = records.get(cityName);
-             System.out.println("*************** Writing " + someCity.getCityRecord().name + " for " + key);
-             context.write(key, someCity);
+             context.write(key, val);
          }
+//
+//           Map<String, CityYearRecord> records = new HashMap<String, CityYearRecord>();
+//
+//	     for (CityYearRecord val : values) {
+//             String cityName = val.getCityRecord().name;
+//             CityYearRecord previous = records.get(cityName);
+//             if( previous == null || previous.getCityRecord().getPopulation() < val.getCityRecord().getPopulation()) {
+//                 System.out.println("*************** Adding " + cityName + " for " + key);
+//                 records.put(cityName,  val);
+//             }
+//	     }
+//
+//           System.out.println(" key size" + records.keySet().size());
+//           List<CityYearRecord> list = new ArrayList<CityYearRecord>(records.values());
+//         for(CityYearRecord someCity: list) {
+//             //CityYearRecord someCity = records.get(cityName);
+//             System.out.println("*************** Writing " + someCity.getCityRecord().name + " for " + key);
+//             context.write(key, someCity);
+//         }
 	     
 	   }
 
