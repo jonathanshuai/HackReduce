@@ -42,6 +42,8 @@ public class Stage2Reducer extends Reducer<Text, CityYearRecord, Text,CityYearRe
              }
 	     }
 
+           System.out.println(" key size" + records.keySet().size());
+
          for(String cityName: records.keySet()) {
              CityYearRecord someCity = records.get(cityName);
              System.out.println("*************** Writing " + someCity.getCityRecord().name + " for " + key);
