@@ -16,25 +16,25 @@ import java.lang.Integer;
 
 public class CityRecord {
 
-    String geonameid         ; // 0 integer id of record in geonames database
-    String name            ; // 1name of geographical point (utf8) varchar(200)
-    String asciiname         ; // 2 name of geographical point in plain ascii characters, varchar(200)
-    String alternatenames    ; // 3 alternatenames, comma separated varchar(5000)
-    String latitude          ; // 4 latitude in decimal degrees (wgs84)
-    String longitude         ; // 5 longitude in decimal degrees (wgs84)
-    String feature_class     ; // 6 see http://www.geonames.org/export/codes.html, char(1)
-    String feature_code      ; // 7 see http://www.geonames.org/export/codes.html, varchar(10)
-    String country_code      ; // 8 ISO-3166 2-letter country code, 2 characters
-    String cc2               ; // 9 alternate country codes, comma separated, ISO-3166 2-letter country code, 60 characters
-    String admin1_code       ; // 10 fipscode (subject to change to iso code), see exceptions below, see file admin1Codes.txt for display names of this code; varchar(20)
-    String admin2_code       ; // 11 code for the second administrative division, a county in the US, see file admin2Codes.txt; varchar(80)
-    String admin3_code       ; // 12 code for third level administrative division, varchar(20)
-    String admin4_code       ; // 13 code for fourth level administrative division, varchar(20)
-    String population        ; // 14 bigint (8 byte int)
-    String elevation         ; // 15 in meters, integer
-    String gtopo30           ; // 16 average elevation of 30'x30' (ca 900mx900m) area in meters, integer
-    String timezone          ; // 17 the timezone id (see file timeZone.txt)
-    String modification_date; // 18 date of last modification in yyyy-MM-dd format
+    public String geonameid         ; // 0 integer id of record in geonames database
+    public String name            ; // 1name of geographical point (utf8) varchar(200)
+    public String asciiname         ; // 2 name of geographical point in plain ascii characters, varchar(200)
+    public String alternatenames    ; // 3 alternatenames, comma separated varchar(5000)
+    public String latitude          ; // 4 latitude in decimal degrees (wgs84)
+    public String longitude         ; // 5 longitude in decimal degrees (wgs84)
+    public String feature_class     ; // 6 see http://www.geonames.org/export/codes.html, char(1)
+    public String feature_code      ; // 7 see http://www.geonames.org/export/codes.html, varchar(10)
+    public String country_code      ; // 8 ISO-3166 2-letter country code, 2 characters
+    public String cc2               ; // 9 alternate country codes, comma separated, ISO-3166 2-letter country code, 60 characters
+    public String admin1_code       ; // 10 fipscode (subject to change to iso code), see exceptions below, see file admin1Codes.txt for display names of this code; varchar(20)
+    public String admin2_code       ; // 11 code for the second administrative division, a county in the US, see file admin2Codes.txt; varchar(80)
+    public String admin3_code       ; // 12 code for third level administrative division, varchar(20)
+    public String admin4_code       ; // 13 code for fourth level administrative division, varchar(20)
+    public String population        ; // 14 bigint (8 byte int)
+    public String elevation         ; // 15 in meters, integer
+    public String gtopo30           ; // 16 average elevation of 30'x30' (ca 900mx900m) area in meters, integer
+    public String timezone          ; // 17 the timezone id (see file timeZone.txt)
+    public String modification_date; // 18 date of last modification in yyyy-MM-dd format
 
 	public CityRecord(String inputString) throws IllegalArgumentException {
 		// CSV header (parsing the inputString is based on this):
@@ -86,4 +86,6 @@ public class CityRecord {
    public Integer getPopulation(){
 	   return new Integer(this.population);
    }
+
+
 }

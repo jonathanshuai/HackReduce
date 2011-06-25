@@ -25,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.logging.Level;
 import org.hackreduce.models.CityYearRecord;
@@ -36,9 +37,10 @@ public class Stage2Mapper extends Mapper<LongWritable, Text, String, CityYearRec
     private HashMap<String, CityRecord> joinData = new HashMap<String, CityRecord>();
 
     @Override
-    public void configure(Configuration conf) {
+    public void setup(Context context) {
         try {
-            Path[] cacheFiles = DistributedCache.getLocalCacheFiles(conf);
+            URI citiesURI = new URI("hdfs://datasets/geonames/cities15000.txt");
+            Path[] cacheFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());
             Path cacheFile = cacheFiles[0];
             String line; String[] tokens;
             BufferedReader joinReader = new BufferedReader( new FileReader(cacheFile.toString()));
@@ -70,7 +72,7 @@ public class Stage2Mapper extends Mapper<LongWritable, Text, String, CityYearRec
 
                 String year = Integer.toString( gram.getYear());
 
-                CityYearRecord cityYearRecord = new CityYearRecord(cityRecord, gram);
+                CityYearRecord cityYearRecord = new CityYearRecord(cityRecord, year, gram.getMatchCount());
                 context.write(year, cityYearRecord);
             }
 		} catch (Exception e) {

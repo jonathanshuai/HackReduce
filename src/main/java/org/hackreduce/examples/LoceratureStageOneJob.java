@@ -12,7 +12,7 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-import org.hackreduce.mappers.StageTwoMapper;
+import org.hackreduce.mappers.Stage2Mapper;
 import java.net.URI;
 
 
@@ -46,8 +46,8 @@ public class LoceratureStageOneJob extends Configured implements Tool {
         job.setJobName(getClass().getName());
 
         // Tell the job which Mapper and Reducer to use (classes defined above)
-        job.setMapperClass(StageTwoMapper.class);
-		job.setReducerClass(LargestPopulationReduce.class);
+        job.setMapperClass(Stage2Mapper.class);
+		job.setReducerClass(Stage2Reducer.class);
 
         job.setInputFormatClass(TextInputFormat.class);
 
