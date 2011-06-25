@@ -13,6 +13,8 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.hackreduce.mappers.Stage2Mapper;
+import org.hackreduce.models.CityYearRecord;
+
 import java.net.URI;
 
 
@@ -53,11 +55,11 @@ public class LoceratureStageOneJob extends Configured implements Tool {
 
 		// This is what the Mapper will be outputting to the Reducer
 		job.setMapOutputKeyClass(Text.class);
-		job.setMapOutputValueClass(Text.class);    // Streaming can only output Text
+		job.setMapOutputValueClass(CityYearRecord.class);    // Streaming can only output Text
 
 		// This is what the Reducer will be outputting
 		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(Text.class);           // Since The distributedCache is being saved to a file
+		job.setOutputValueClass(CityYearRecord.class);           // Since The distributedCache is being saved to a file
 
 		// Setting the input folder of the job 
 		FileInputFormat.addInputPath(job, new Path(args[0]));        // Hardcoding sucks if someone is trying to test

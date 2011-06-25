@@ -32,7 +32,7 @@ import org.hackreduce.models.CityYearRecord;
 
 /**
  */
-public class Stage2Mapper extends Mapper<LongWritable, Text, String, CityYearRecord> {
+public class Stage2Mapper extends Mapper<LongWritable, Text, Text, CityYearRecord> {
 
     private HashMap<String, CityRecord> joinData = new HashMap<String, CityRecord>();
 
@@ -80,7 +80,7 @@ public class Stage2Mapper extends Mapper<LongWritable, Text, String, CityYearRec
                 String year = Integer.toString( gram.getYear());
 
                 CityYearRecord cityYearRecord = new CityYearRecord(cityRecord, year, gram.getMatchCount());
-                context.write(year, cityYearRecord);
+                context.write( new Text(year), cityYearRecord);
             }
 		} catch (Exception e) {
 			//LOG.log(Level.WARNING, e.getMessage(), e);

@@ -1,8 +1,12 @@
 package org.hackreduce.models;
 
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
 import org.eclipse.jdt.internal.compiler.impl.StringConstant;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,7 +18,7 @@ import java.lang.Integer;
  *
  */
 
-public class CityRecord {
+public class CityRecord  implements Writable {
 
     public String geonameid         ; // 0 integer id of record in geonames database
     public String name            ; // 1name of geographical point (utf8) varchar(200)
@@ -89,4 +93,29 @@ public class CityRecord {
    }
 
 
+    public void write(DataOutput dataOutput) throws IOException {
+            dataOutput.writeChars(geonameid);
+            dataOutput.writeChars(name);
+            dataOutput.writeChars(asciiname);
+            dataOutput.writeChars(alternatenames);
+            dataOutput.writeChars(latitude);
+            dataOutput.writeChars(longitude);
+            dataOutput.writeChars(feature_class);
+            dataOutput.writeChars(feature_code);
+            dataOutput.writeChars(country_code);
+            dataOutput.writeChars(cc2);
+            dataOutput.writeChars(admin1_code);
+            dataOutput.writeChars(admin2_code);
+            dataOutput.writeChars(admin3_code);
+            dataOutput.writeChars(admin4_code);
+            dataOutput.writeChars(population);
+            dataOutput.writeChars(elevation);
+            dataOutput.writeChars(gtopo30);
+            dataOutput.writeChars(timezone);
+            dataOutput.writeChars(modification_date);
+    }
+
+    public void readFields(DataInput dataInput) throws IOException {
+
+    }
 }
