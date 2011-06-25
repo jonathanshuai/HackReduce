@@ -1,18 +1,19 @@
 package org.hackreduce.models;
 
+
 public class CityYearRecord {
-	private String cityName;
+	private CityRecord cr;
 	private String year;
 	private int count;
 	
-	public CityYearRecord(String cityName, String year, int count){
-		this.cityName = cityName;
+	public CityYearRecord(CityRecord cr, String year, int count){
+		this.cr = cr;
 		this.year = year;
 		this.count = count;
 	}
 	
-	public String getCityName(){
-		return cityName;
+	public CityRecord getCityRecord(){
+		return cr;
 	}
 	
 	public String getYear(){
@@ -24,8 +25,8 @@ public class CityYearRecord {
 		return count;
 	}
 	
-	public void setCityRecord(String cityName){
-		this.cityName = cityName;
+	public void setCityRecord(CityRecord cr){
+		this.cr = cr;
 	}
 	
 	public void setCount(int count){

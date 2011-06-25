@@ -6,13 +6,14 @@ import org.eclipse.jdt.internal.compiler.impl.StringConstant;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.lang.Integer;
 
 
 /**
  * Parses a raw record (line of string data) from the geonames
  *
  */
-@Data
+
 public class CityRecord {
 
     String geonameid         ; // 0 integer id of record in geonames database
@@ -63,8 +64,6 @@ public class CityRecord {
             gtopo30 = attributes[15];
             timezone = attributes[16];
             modification_date = attributes[17];
-		} catch (ParseException e) {
-			throw new IllegalArgumentException("Input string contained an unknown value that couldn't be parsed", e);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException("Input string contained an unknown number value that couldn't be parsed", e);
 		}
@@ -74,5 +73,17 @@ public class CityRecord {
 		this(inputText.toString());
 	}
 
+	public boolean equals(Object o) {
+		  
+	    if (o instanceof CityRecord) {
+	      CityRecord c = (CityRecord) o;
+	      if (this.geonameid.equals(c.geonameid)) return true;
+	    }
+	    return false;
+	    
+	  }
 
+   public Integer getPopulation(){
+	   return new Integer(this.population);
+   }
 }
