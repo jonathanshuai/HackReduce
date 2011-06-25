@@ -45,11 +45,10 @@ public class Stage2Reducer extends Reducer<Text, CityYearRecord, Text,CityYearRe
 	    		 sum += val.getCount();
 	    	 }
 	     }
-	     String[] entries = key.toString().split(";");
-	     Text year = new Text(entries[1]);
-	     CityYearRecord result = new CityYearRecord(maxCity,year.toString(),sum) ;
+
+	     CityYearRecord result = new CityYearRecord(maxCity,key.toString(),sum) ;
 	     
-	     context.write(year, result);
+	     context.write(key, result);
 	     
 	     
 	   }
