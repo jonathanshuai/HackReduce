@@ -2,8 +2,11 @@ package org.hackreduce.models;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import net.sf.json.*;
 
 import org.apache.hadoop.io.Writable;
+
+import sun.tools.tree.ThisExpression;
 
 public class CityYearRecord implements Writable {
 	private CityRecord cr;
@@ -54,9 +57,18 @@ public class CityYearRecord implements Writable {
          this.count = in.readInt();
          this.year = in.readUTF();
          
-       }
-       
-      
+     }
      
+      public JSONObject toJSON(){
+    	JSONObject result = new JSONObject();  
+    	result.element("count", this.count);
+    	result.element("city", this.cr.asciiname);
+    	result.element("long", this.cr.longitude);
+    	result.element("lat", this.cr.latitude);
+    	result.element("year", this.year);
+    	result.element("id", this.cr.geonameid);
+    	return result;
+      
+      }
 	
 }
