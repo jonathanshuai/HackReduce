@@ -1,7 +1,7 @@
 package org.hackreduce.models;
+import org.apache.hadoop.io.Writable;
 
-
-public class CityYearRecord {
+public class CityYearRecord implements Writeable {
 	private CityRecord cr;
 	private String year;
 	private int count;
@@ -37,5 +37,15 @@ public class CityYearRecord {
 		this.year = year;
 	}
 	
+	public void write(DataOutput out) throws IOException {
+         cr.write(out);
+       }
+       
+       public void readFields(DataInput in) throws IOException {
+         cr.readFileds(in);
+       }
+       
+      
+     }
 	
 }
