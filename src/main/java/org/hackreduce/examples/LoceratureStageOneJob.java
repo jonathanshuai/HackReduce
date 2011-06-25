@@ -5,18 +5,15 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.filecache.DistributedCache;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-import org.hackreduce.mappers.ModelMapper;
-
-import java.io.IOException;
+import org.hackreduce.mappers.StageTwoMapper;
+import java.net.URI;
 
 
 /**
@@ -38,8 +35,8 @@ public class LoceratureStageOneJob extends Configured implements Tool {
 	public int run(String[] args) throws Exception {
 		Configuration conf = getConf();
 
-        if (args.length != 0) {
-        	System.err.println("Not sure what you think you're passing.");
+        if (args.length != 2) {
+        	System.err.println("Usage: " + getClass().getName() + " <input> <output>");
         	System.exit(2);
         }
 
@@ -49,7 +46,7 @@ public class LoceratureStageOneJob extends Configured implements Tool {
         job.setJobName(getClass().getName());
 
         // Tell the job which Mapper and Reducer to use (classes defined above)
-        //job.setMapperClass();      // Will be python script
+        job.setMapperClass(StageTwoMapper.class);
 		job.setReducerClass(LargestPopulationReduce.class);
 
         job.setInputFormatClass(TextInputFormat.class);
@@ -70,8 +67,8 @@ public class LoceratureStageOneJob extends Configured implements Tool {
         FileSystem.get(conf).delete(output, true);
 	    FileOutputFormat.setOutputPath(job, output);
 
-        new DistributedCache.addCacheFile("/datasets/geonames/cities15000/cities15000.txt", job);
-
+	    // Mappers will need city names for lookup
+	    DistributedCache.addCacheFile(new URI("/datasets/geonames/cities15000/cities15000.txt"), conf);
 		return job.waitForCompletion(true) ? 0 : 1;
 	}
 }
