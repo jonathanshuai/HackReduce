@@ -40,30 +40,31 @@ public class CityRecord {
 		// CSV header (parsing the inputString is based on this):
 		// exchange, stock_symbol, date, stock_price_open, stock_price_high, stock_price_low,
 		// 		stock_price_close, stock_volume, stock_price_adj_close
-		String[] attributes = inputString.split(",");
+		String[] attributes = inputString.split("\t");
 
-		if (attributes.length != 18)
-			throw new IllegalArgumentException("Input string given did not have 9 values in CSV format");
+		if (attributes.length != 19)
+			throw new IllegalArgumentException("Input string given did not have 18 values in CSV format, had " + attributes.length);
 
 		try {
             geonameid = attributes[0];
             name = attributes[1];
             asciiname = attributes[2];
-            latitude = attributes[3];
-            longitude = attributes[4];
-            feature_class = attributes[5];
-            feature_code = attributes[6];
-            country_code = attributes[7];
-            cc2 = attributes[8];
-            admin1_code = attributes[9];
-            admin2_code = attributes[10];
-            admin3_code = attributes[11];
-            admin4_code = attributes[12];
-            population = attributes[13];
-            elevation = attributes[14];
-            gtopo30 = attributes[15];
-            timezone = attributes[16];
-            modification_date = attributes[17];
+            alternatenames = attributes[3];
+            latitude = attributes[4];
+            longitude = attributes[5];
+            feature_class = attributes[6];
+            feature_code = attributes[7];
+            country_code = attributes[8];
+            cc2 = attributes[9];
+            admin1_code = attributes[10];
+            admin2_code = attributes[11];
+            admin3_code = attributes[12];
+            admin4_code = attributes[13];
+            population = attributes[14];
+            elevation = attributes[15];
+            gtopo30 = attributes[16];
+            timezone = attributes[17];
+            modification_date = attributes[18];
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException("Input string contained an unknown number value that couldn't be parsed", e);
 		}

@@ -41,9 +41,15 @@ public class Stage2Mapper extends Mapper<LongWritable, Text, String, CityYearRec
         try {
             URI citiesURI = new URI("hdfs://datasets/geonames/cities15000.txt");
             Path[] cacheFiles = DistributedCache.getLocalCacheFiles(context.getConfiguration());
-            Path cacheFile = cacheFiles[0];
+            String path;
+            if( cacheFiles != null) {
+                Path cacheFile = cacheFiles[0];
+                path = cacheFile.toString();
+            } else {
+                path = "datasets/geonames/cities15000/cities15000.txt";
+            }
             String line; String[] tokens;
-            BufferedReader joinReader = new BufferedReader( new FileReader(cacheFile.toString()));
+            BufferedReader joinReader = new BufferedReader( new FileReader(path));
              try {
                  while ((line = joinReader.readLine()) != null) {
                      CityRecord record = new CityRecord(line);
@@ -56,6 +62,7 @@ public class Stage2Mapper extends Mapper<LongWritable, Text, String, CityYearRec
              }
          } catch(Exception e) {
              System.err.println("Distribute cache issue");
+            throw new RuntimeException(e);
          }
     }
 
