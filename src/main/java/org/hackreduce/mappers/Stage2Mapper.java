@@ -39,11 +39,12 @@ public class Stage2Mapper extends Mapper<LongWritable, Text, Text, CityYearRecor
     @Override
     public void setup(Context context) {
         try {
-            URI citiesURI = new URI("/datasets/geonames/");
-            FileSystem fileSystem= FileSystem.get(citiesURI, context.getConfiguration());
+            URI citiesURI = new URI("/");
+
+            FileSystem fileSystem= FileSystem.get(context.getConfiguration());
 
             Reader reader;
-            Path citiesPath = new Path("cities15000.txt");
+            Path citiesPath = new Path("/datasets/geonames/cities15000.txt");
             if( fileSystem.exists(citiesPath) ) {
                 FSDataInputStream in = fileSystem.open(citiesPath);
                 reader = new InputStreamReader(in);

@@ -1,4 +1,4 @@
-version = '0.2'
+version = '0.3'
 
 // Modify these values if you want to build against different versions of Hadoop
 hadoop_version = '0.20.2'
